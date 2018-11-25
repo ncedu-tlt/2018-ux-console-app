@@ -26,7 +26,11 @@ public class AddProductCommand implements Command{
 
         Product product = new Product();
         product.setName(ProductCommandsUtils.getName(scanner));
-        product.setCategory_id(ProductCommandsUtils.getCategoryId(scanner));
+        long categoryId = ProductCommandsUtils.getCategoryId(scanner);
+        if(categoryId == -1){
+            return ProductsMenuCommand.getInstance();
+        }
+        product.setCategory_id(categoryId);
         product.setDescription(ProductCommandsUtils.getDescription(scanner));
 
         ProductsRepository.getInstance().add(product);

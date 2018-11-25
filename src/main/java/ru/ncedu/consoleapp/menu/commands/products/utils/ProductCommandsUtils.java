@@ -41,7 +41,7 @@ public class ProductCommandsUtils {
         if (description.isEmpty()) {
             IOUtils.printSeparator();
             System.out.println("Description can't be empty");
-            description = getName(scanner);
+            description = getDescription(scanner);
         }
 
         return description;
@@ -49,24 +49,42 @@ public class ProductCommandsUtils {
 
     public static long getCategoryId(Scanner scanner) {
 
+        long idCategory;
         IOUtils.printSeparator();
         System.out.println("Enter ID of category for new product :");
+        IOUtils.printPrompt();
         List<Category> categories = CategoriesRepository.getInstance().get();
         if(!categories.isEmpty()){
             for(Category category: categories){
                 CategoryCommandsUtils.printCategory(category);
             }
         }
-        IOUtils.printPrompt();
+        else{
+            System.out.println("No categories have been found. Add categories.");
+            IOUtils.waitForEnter();
+            return -1;
+        }
 
         String idCategoryString = scanner.nextLine();
         if (idCategoryString.isEmpty()) {
             IOUtils.printSeparator();
             System.out.println("ID can't be empty");
-            idCategoryString = getName(scanner);
+            idCategory = getCategoryId(scanner);
         }
-
-        return Long.parseLong(idCategoryString);
+        else {
+            idCategory = Long.parseLong(idCategoryString);
+            Category category = CategoriesRepository.getInstance().get(idCategory);
+            if (category == null) {
+                IOUtils.printSeparator();
+                System.out.println("No categories with such ID have been found");
+                idCategory = getCategoryId(scanner);
+            }
+            else{
+                idCategory = category.getId();
+            }
+        }
+        
+        return idCategory;
 
     }
 }
