@@ -52,7 +52,6 @@ public class ProductCommandsUtils {
         long idCategory;
         IOUtils.printSeparator();
         System.out.println("Enter ID of category for new product :");
-        IOUtils.printPrompt();
         List<Category> categories = CategoriesRepository.getInstance().get();
         if(!categories.isEmpty()){
             for(Category category: categories){
@@ -61,9 +60,10 @@ public class ProductCommandsUtils {
         }
         else{
             System.out.println("No categories have been found. Add categories.");
-            IOUtils.waitForEnter();
             return -1;
         }
+
+        IOUtils.printPrompt();
 
         String idCategoryString = scanner.nextLine();
         if (idCategoryString.isEmpty()) {
@@ -72,7 +72,13 @@ public class ProductCommandsUtils {
             idCategory = getCategoryId(scanner);
         }
         else {
-            idCategory = Long.parseLong(idCategoryString);
+            try{
+                idCategory = Long.parseLong(idCategoryString);
+            }
+            catch(NumberFormatException e){
+                System.out.println("ID must be a number");
+                idCategory = getCategoryId(scanner);
+            }
             Category category = CategoriesRepository.getInstance().get(idCategory);
             if (category == null) {
                 IOUtils.printSeparator();
@@ -83,7 +89,7 @@ public class ProductCommandsUtils {
                 idCategory = category.getId();
             }
         }
-        
+
         return idCategory;
 
     }

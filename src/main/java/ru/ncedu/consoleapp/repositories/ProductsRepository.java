@@ -4,6 +4,8 @@ import ru.ncedu.consoleapp.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProductsRepository implements Repository<Product> {
 
@@ -66,7 +68,9 @@ public class ProductsRepository implements Repository<Product> {
         return ++id;
     }
 
-    public Product getByCategoryId(long id) {
-        return products.stream().filter(product -> product.getCategoryId() == id).findFirst().orElse(null);
+    public List<Product> getByCategoryId(long id) {
+        return products.stream().
+                filter(product -> product.getCategoryId() == id).collect(Collectors.toList());
+
     }
 }

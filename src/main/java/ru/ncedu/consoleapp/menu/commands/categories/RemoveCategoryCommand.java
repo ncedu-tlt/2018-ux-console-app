@@ -51,13 +51,15 @@ public class RemoveCategoryCommand implements Command {
             IOUtils.waitForEnter();
             return this;
         }
-        else{
-            Product product = null;
-            while((product = ProductsRepository.getInstance().getByCategoryId(category.getId())) != null){
-                IOUtils.printSeparator();
-                ProductsRepository.getInstance().remove(product);
-                System.out.println("Product "+ product.getId() +" has been removed");
-                IOUtils.printSeparator();
+        else {
+            List<Product> productsInCategory = ProductsRepository.getInstance().getByCategoryId(category.getId());
+            if (!productsInCategory.isEmpty()) {
+                for (Product product : productsInCategory) {
+                    IOUtils.printSeparator();
+                    ProductsRepository.getInstance().remove(product);
+                    System.out.println("Product " + product.getId() + " has been removed");
+                    IOUtils.printSeparator();
+                }
             }
         }
         boolean success = CategoriesRepository.getInstance().remove(id);

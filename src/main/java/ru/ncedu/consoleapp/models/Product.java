@@ -4,7 +4,7 @@ public class Product implements  Cloneable{
 
     private long id;
     private String name;
-    private long category_id;
+    private long categoryId;
     private String description;
 
     public Product() {
@@ -14,10 +14,10 @@ public class Product implements  Cloneable{
         this.id = id;
     }
 
-    public Product(long id, String name, long category_id, String description) {
+    public Product(long id, String name, long categoryId, String description) {
         this.id = id;
         this.name = name;
-        this.category_id = category_id;
+        this.categoryId = categoryId;
         this.description = description;
     }
 
@@ -26,11 +26,11 @@ public class Product implements  Cloneable{
     }
 
     public long getCategoryId() {
-        return this.category_id;
+        return this.categoryId;
     }
 
-    public void setCategory_id(long category_id){
-        this.category_id = category_id;
+    public void setCategoryId(long category_id){
+        this.categoryId = category_id;
     }
 
     public long getId() {

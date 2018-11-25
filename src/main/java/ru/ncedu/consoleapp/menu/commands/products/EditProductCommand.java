@@ -53,7 +53,7 @@ public class EditProductCommand implements Command{
 
         Scanner scanner = new Scanner(System.in);
         product.setName(ProductCommandsUtils.getName(scanner));
-        product.setCategory_id(ProductCommandsUtils.getCategoryId(scanner));
+        product.setCategoryId(ProductCommandsUtils.getCategoryId(scanner));
         product.setDescription(ProductCommandsUtils.getDescription(scanner));
 
         ProductsRepository.getInstance().update(product);

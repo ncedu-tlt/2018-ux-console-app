@@ -1,6 +1,7 @@
 package ru.ncedu.consoleapp.menu.commands.products;
 
 import ru.ncedu.consoleapp.menu.commands.Command;
+import ru.ncedu.consoleapp.menu.commands.categories.AddCategoryCommand;
 import ru.ncedu.consoleapp.menu.commands.products.utils.ProductCommandsUtils;
 import ru.ncedu.consoleapp.models.Product;
 import ru.ncedu.consoleapp.repositories.ProductsRepository;
@@ -28,9 +29,9 @@ public class AddProductCommand implements Command{
         product.setName(ProductCommandsUtils.getName(scanner));
         long categoryId = ProductCommandsUtils.getCategoryId(scanner);
         if(categoryId == -1){
-            return ProductsMenuCommand.getInstance();
+            return AddCategoryCommand.getInstance();
         }
-        product.setCategory_id(categoryId);
+        product.setCategoryId(categoryId);
         product.setDescription(ProductCommandsUtils.getDescription(scanner));
 
         ProductsRepository.getInstance().add(product);
