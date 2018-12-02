@@ -2,6 +2,7 @@ package ru.ncedu.consoleapp.menu.commands;
 
 import ru.ncedu.consoleapp.menu.commands.categories.CategoriesMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.products.ProductsMenuCommand;
+import ru.ncedu.consoleapp.menu.commands.citys.CitysMenuCommand;
 import ru.ncedu.consoleapp.utils.IOUtils;
 
 import java.util.Scanner;
@@ -26,6 +27,7 @@ public class MainMenuCommand implements Command {
         IOUtils.printSeparator();
         IOUtils.printOption("1", "Categories");
         IOUtils.printOption("2", "Products");
+	IOUtils.printOption("3", "Citys");
         IOUtils.printOption("0", "Exit");
         IOUtils.printSeparator();
         IOUtils.printPrompt();
@@ -40,6 +42,8 @@ public class MainMenuCommand implements Command {
                 return CategoriesMenuCommand.getInstance();
             case 2:
                 return ProductsMenuCommand.getInstance();
+	    case 3:
+                return CitysMenuCommand.getInstance();
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
                 return this;
