@@ -3,8 +3,6 @@ package ru.ncedu.consoleapp.utils;
 import java.sql.*;
 
 import static ru.ncedu.consoleapp.consts.Views.DB_URL_VAR;
-import static ru.ncedu.consoleapp.consts.Views.PASSWORD;
-import static ru.ncedu.consoleapp.consts.Views.USER;
 
 
 public class DBUtils {
@@ -14,11 +12,9 @@ public class DBUtils {
 
     private static Connection getEnvConnection() {
         String connectionUrl = System.getenv(DB_URL_VAR);
-        String user = System.getenv(USER);
-        String password = System.getenv(PASSWORD);
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection(connectionUrl, user, password);
+            return DriverManager.getConnection(connectionUrl);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
