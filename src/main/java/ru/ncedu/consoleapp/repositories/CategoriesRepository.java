@@ -56,13 +56,12 @@ public class CategoriesRepository implements Repository<Category> {
         ResultSet resultSet = null;
 
         try {
-            statement = connection.prepareStatement(
-                    "SELECT * FROM categories WHERE id=(?)");
+            statement = connection.prepareStatement("SELECT * FROM categories WHERE id=(?)");
             statement.setLong(1, id);
             statement.execute();
             resultSet = statement.getResultSet();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 Category category = new Category();
 
                 category.setId(resultSet.getLong("id"));
@@ -70,9 +69,9 @@ public class CategoriesRepository implements Repository<Category> {
                 category.setDescription(resultSet.getString("description"));
 
                 return category;
+            } else {
+                return null;
             }
-            else return null;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -116,7 +115,6 @@ public class CategoriesRepository implements Repository<Category> {
 
         Connection connection = DBUtils.getConnection();
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
 
         try {
             statement = connection.prepareStatement(
@@ -128,7 +126,6 @@ public class CategoriesRepository implements Repository<Category> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            DBUtils.close(resultSet);
             DBUtils.close(statement);
             DBUtils.close(connection);
         }
@@ -144,7 +141,6 @@ public class CategoriesRepository implements Repository<Category> {
     public boolean remove(long id) {
         Connection connection = DBUtils.getConnection();
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
 
         try {
             statement = connection.prepareStatement("DELETE FROM categories WHERE id=(?)");
@@ -153,7 +149,6 @@ public class CategoriesRepository implements Repository<Category> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            DBUtils.close(resultSet);
             DBUtils.close(statement);
             DBUtils.close(connection);
         }

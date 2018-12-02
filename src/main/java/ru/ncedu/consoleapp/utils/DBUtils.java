@@ -1,17 +1,16 @@
 package ru.ncedu.consoleapp.utils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import static ru.ncedu.consoleapp.consts.Views.DB_URL_VAR;
+import static ru.ncedu.consoleapp.consts.EnvironmentVariables.DB_URL;
 
 
 public class DBUtils {
-    public static Connection getConnection() {
-        return getEnvConnection();
-    }
 
-    private static Connection getEnvConnection() {
-        String connectionUrl = System.getenv(DB_URL_VAR);
+    public static Connection getConnection() {
+        String connectionUrl = System.getenv(DB_URL);
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(connectionUrl);
@@ -20,31 +19,11 @@ public class DBUtils {
         }
     }
 
-    public static void close(ResultSet resultSet) {
-        if (resultSet != null) {
+    public static void close(AutoCloseable closeable) {
+        if (closeable != null) {
             try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void close(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void close(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
+                closeable.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
