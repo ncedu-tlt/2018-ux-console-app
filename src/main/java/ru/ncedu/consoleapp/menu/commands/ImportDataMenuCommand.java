@@ -45,59 +45,92 @@ public class ImportDataMenuCommand implements Command {
 
     private void getProducts(Map<Long, String> categoriesIdAndLink) {
         for (Long category:categoriesIdAndLink.keySet()) {
-            setProduct(category, categoriesIdAndLink.get(category));
+            getProduct(category, categoriesIdAndLink.get(category));
         }
     }
 
-    private void setProduct(long categoryID, String categoryLink) {
+    private void getProduct(long categoryID, String categoryLink) {
+
         String url = "https://market.yandex.ru" + categoryLink;
-        String notAddedProducts = "Все товары";
 
         Document document = null;
         try {
             document = Jsoup.connect(url)
                     .get();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         Element bodyElement = document.body();
-        Elements subCategoriesElements = bodyElement.select("div.main").select("div._1YdrMWBuYy");
 
-        Iterator<Element> subCategoriesIterator = subCategoriesElements.iterator();
+        Elements productElements = bodyElement
+                .select("div.n-snippet-cell2.i-bem.b-zone." +
+                        "b-spy-visible.n-snippet-cell2_type_product");
 
-        ArrayList<String> productsName = new ArrayList<>();
+        Iterator<Element> productsIterator = productElements.iterator();
 
-        while (subCategoriesIterator.hasNext()) {
-            Element subCategoryElement = subCategoriesIterator.next();
-            Elements productsElements = subCategoryElement.select("div._1Y6X2G3jjK").select("a");
-            Iterator<Element> productsElementIterator = productsElements.iterator();
-            while (productsElementIterator.hasNext()) {
-                Element productElement = productsElementIterator.next();
-                Node nodeList = productElement.childNode(0);
-                String productName = nodeList.toString();
-                if(!productName.equals(notAddedProducts)){
-                    productsName.add(productName);
-                    Product product = new Product();
-                    product.setName(productName);
-                    product.setCategoryId(categoryID);
-                    product.setDescription("-");
-                    ProductsRepository.getInstance().add(product);
-                }
-            }
+        while(productsIterator.hasNext()){
+            Element productElement = productsIterator.next();
+            Element elementWithProductName = productElement.select("div.n-snippet-cell2__title a").first();
+            String productName = elementWithProductName.attr("title");
+            Product product = new Product();
+            product.setName(productName);
+            product.setCategoryId(categoryID);
+            product.setDescription("-");
+            ProductsRepository.getInstance().add(product);
         }
     }
 
-    private Map<Long,String> getCategoriesIdAndLink()  {
-        Map<Long,String> categoriesIdAndLink = new HashMap<>();
+    private Map<Long,String> getCategoriesIdAndLink(){
+        ArrayList<String> mainCategoriesLinks = getMainCategoriesLinks();
+
+        Map<Long, String> categoriesIdAndLinks = new HashMap<>();
+        for (String mainCategoryLink: mainCategoriesLinks) {
+            String url = "https://market.yandex.ru" + mainCategoryLink;
+            String notAddedCategories = "Все товары";
+
+            Document document = null;
+            try {
+                document = Jsoup.connect(url)
+                        .get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Element bodyElement = document.body();
+            Elements subCategoriesElements = bodyElement.select("div.main").select("div._1YdrMWBuYy");
+
+            Iterator<Element> subCategoriesIterator = subCategoriesElements.iterator();
+
+            while (subCategoriesIterator.hasNext()) {
+                Element subCategoryElement = subCategoriesIterator.next();
+                Elements categoryElements = subCategoryElement.select("div._1Y6X2G3jjK").select("a");
+                Iterator<Element> categoriesElementIterator = categoryElements.iterator();
+                while (categoriesElementIterator.hasNext()) {
+                    Element categoryElement = categoriesElementIterator.next();
+                    String link = categoryElement.attr("href");
+                    Node nodeList = categoryElement.childNode(0);
+                    String categoryName = nodeList.toString();
+                    if (!categoryName.equals(notAddedCategories)) {
+                        Category category = new Category();
+                        category.setName(categoryName);
+                        category.setDescription("-");
+                        category = CategoriesRepository.getInstance().add(category);
+                        categoriesIdAndLinks.put(category.getId(),link);
+                    }
+                }
+            }
+        }
+        return categoriesIdAndLinks;
+    }
+
+    private ArrayList<String> getMainCategoriesLinks() {
+        ArrayList<String> mainCategoriesLinks = new ArrayList<>();
 
         String url = "https://market.yandex.ru";
         Document document = null;
         try {
-            document = Jsoup.connect(url)
-                    .referrer("http://www.google.com")
-                    .get();
+            document = Jsoup.connect(url).get();
         }
         catch (IOException e){
             e.printStackTrace();
@@ -112,23 +145,13 @@ public class ImportDataMenuCommand implements Command {
                 .getJSONObject("n-w-tabs")
                 .getJSONArray("nodes");
 
-        Category category;
-
         for (int i = 1; i < nodesArray.length() - 1; i++) {
             JSONObject jsonObject1 = nodesArray.getJSONObject(i)
                     .getJSONArray("data")
                     .getJSONObject(0);
-            String fullName = jsonObject1.getString("fullName");
             String link = jsonObject1.getString("link");
-
-            category = new Category();
-            category.setName(fullName);
-            category.setDescription("-");
-            category = CategoriesRepository.getInstance().add(category);
-            categoriesIdAndLink.put(category.getId(),link);
+            mainCategoriesLinks.add(link);
         }
-
-        return categoriesIdAndLink;
+        return  mainCategoriesLinks;
     }
-    
 }
