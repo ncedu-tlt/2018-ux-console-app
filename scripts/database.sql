@@ -5,7 +5,7 @@
 -- Dumped from database version 9.4.19
 -- Dumped by pg_dump version 10.5
 
--- Started on 2018-12-04 22:43:26
+-- Started on 2018-12-05 18:12:38
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -45,7 +45,8 @@ SET default_with_oids = false;
 
 CREATE TABLE public.category (
     category_id integer NOT NULL,
-    category_name character varying(30) NOT NULL
+    category_name character varying(30) NOT NULL,
+    category_description character varying(50) NOT NULL
 );
 
 
@@ -83,7 +84,8 @@ ALTER SEQUENCE public.category_category_id_seq OWNED BY public.category.category
 CREATE TABLE public.city (
     city_id integer NOT NULL,
     city_name character varying(30) NOT NULL,
-    city_phone_extension character varying(20) NOT NULL
+    city_phone_extension character varying(20) NOT NULL,
+    city_description character varying(50) NOT NULL
 );
 
 
@@ -174,7 +176,8 @@ ALTER SEQUENCE public.office_office_id_seq OWNED BY public.office.office_id;
 CREATE TABLE public.product (
     product_id integer NOT NULL,
     product_name character varying(30) NOT NULL,
-    category_id integer NOT NULL
+    category_id integer NOT NULL,
+    product_description character varying(50) NOT NULL
 );
 
 
@@ -242,7 +245,7 @@ ALTER TABLE ONLY public.product ALTER COLUMN product_id SET DEFAULT nextval('pub
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: nc2018
 --
 
-COPY public.category (category_id, category_name) FROM stdin;
+COPY public.category (category_id, category_name, category_description) FROM stdin;
 \.
 
 
@@ -252,7 +255,7 @@ COPY public.category (category_id, category_name) FROM stdin;
 -- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: nc2018
 --
 
-COPY public.city (city_id, city_name, city_phone_extension) FROM stdin;
+COPY public.city (city_id, city_name, city_phone_extension, city_description) FROM stdin;
 \.
 
 
@@ -282,7 +285,7 @@ COPY public.office (office_id, office_name, office_phone_number, city_id) FROM s
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: nc2018
 --
 
-COPY public.product (product_id, product_name, category_id) FROM stdin;
+COPY public.product (product_id, product_name, category_id, product_description) FROM stdin;
 \.
 
 
@@ -368,39 +371,39 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 1924 (class 2606 OID 83999)
+-- TOC entry 1923 (class 2606 OID 84015)
 -- Name: offering offering_office_fk; Type: FK CONSTRAINT; Schema: public; Owner: nc2018
 --
 
 ALTER TABLE ONLY public.offering
-    ADD CONSTRAINT offering_office_fk FOREIGN KEY (office_id) REFERENCES public.office(office_id);
+    ADD CONSTRAINT offering_office_fk FOREIGN KEY (office_id) REFERENCES public.office(office_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- TOC entry 1923 (class 2606 OID 83994)
+-- TOC entry 1924 (class 2606 OID 84020)
 -- Name: offering offering_product_fk; Type: FK CONSTRAINT; Schema: public; Owner: nc2018
 --
 
 ALTER TABLE ONLY public.offering
-    ADD CONSTRAINT offering_product_fk FOREIGN KEY (product_id) REFERENCES public.product(product_id);
+    ADD CONSTRAINT offering_product_fk FOREIGN KEY (product_id) REFERENCES public.product(product_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- TOC entry 1921 (class 2606 OID 83963)
--- Name: office office_city_fk; Type: FK CONSTRAINT; Schema: public; Owner: nc2018
---
-
-ALTER TABLE ONLY public.office
-    ADD CONSTRAINT office_city_fk FOREIGN KEY (city_id) REFERENCES public.city(city_id);
-
-
---
--- TOC entry 1922 (class 2606 OID 83984)
+-- TOC entry 1922 (class 2606 OID 84005)
 -- Name: product product_category_fk; Type: FK CONSTRAINT; Schema: public; Owner: nc2018
 --
 
 ALTER TABLE ONLY public.product
-    ADD CONSTRAINT product_category_fk FOREIGN KEY (category_id) REFERENCES public.category(category_id);
+    ADD CONSTRAINT product_category_fk FOREIGN KEY (category_id) REFERENCES public.category(category_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1921 (class 2606 OID 84010)
+-- Name: office product_category_fk; Type: FK CONSTRAINT; Schema: public; Owner: nc2018
+--
+
+ALTER TABLE ONLY public.office
+    ADD CONSTRAINT product_category_fk FOREIGN KEY (city_id) REFERENCES public.city(city_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -415,7 +418,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2018-12-04 22:43:34
+-- Completed on 2018-12-05 18:12:46
 
 --
 -- PostgreSQL database dump complete
