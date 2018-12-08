@@ -13,7 +13,8 @@ public class ProductCommandsUtils {
 
     public static void printProduct(Product product) {
         IOUtils.printOption(String.valueOf(product.getId()), product.getName());
-        System.out.println("Category: "+ product.getCategoryId());
+        String categoryName = CategoriesRepository.getInstance().get(product.getCategoryId()).getName();
+        System.out.println("Category: " + product.getCategoryId() + " " + categoryName);
         System.out.println("    " + product.getDescription());
     }
 

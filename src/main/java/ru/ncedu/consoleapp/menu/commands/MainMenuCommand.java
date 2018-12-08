@@ -26,6 +26,7 @@ public class MainMenuCommand implements Command {
         IOUtils.printSeparator();
         IOUtils.printOption("1", "Categories");
         IOUtils.printOption("2", "Products");
+        IOUtils.printOption("3", "Import data from yandex market");
         IOUtils.printOption("0", "Exit");
         IOUtils.printSeparator();
         IOUtils.printPrompt();
@@ -40,6 +41,8 @@ public class MainMenuCommand implements Command {
                 return CategoriesMenuCommand.getInstance();
             case 2:
                 return ProductsMenuCommand.getInstance();
+            case 3:
+                return ImportDataMenuCommand.getInstance();
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
                 return this;
