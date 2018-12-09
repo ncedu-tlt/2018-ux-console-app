@@ -30,12 +30,13 @@ public class CategoriesRepository implements Repository<Category> {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT id, name, description FROM categories");
+            resultSet = statement.executeQuery("SELECT category_id, category_name," +
+                    " category_description FROM category");
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setId(resultSet.getLong("id"));
-                category.setName(resultSet.getString("name"));
-                category.setDescription(resultSet.getString("description"));
+                category.setId(resultSet.getLong("category_id"));
+                category.setName(resultSet.getString("category_name"));
+                category.setDescription(resultSet.getString("category_description"));
                 categories.add(category);
             }
         } catch (SQLException e) {
@@ -56,7 +57,7 @@ public class CategoriesRepository implements Repository<Category> {
         ResultSet resultSet = null;
 
         try {
-            statement = connection.prepareStatement("SELECT * FROM categories WHERE id=(?)");
+            statement = connection.prepareStatement("SELECT * FROM category WHERE category_id=(?)");
             statement.setLong(1, id);
             statement.execute();
             resultSet = statement.getResultSet();
@@ -64,9 +65,9 @@ public class CategoriesRepository implements Repository<Category> {
             if (resultSet.next()) {
                 Category category = new Category();
 
-                category.setId(resultSet.getLong("id"));
-                category.setName(resultSet.getString("name"));
-                category.setDescription(resultSet.getString("description"));
+                category.setId(resultSet.getLong("category_id"));
+                category.setName(resultSet.getString("category_name"));
+                category.setDescription(resultSet.getString("category_description"));
 
                 return category;
             } else {
@@ -90,14 +91,15 @@ public class CategoriesRepository implements Repository<Category> {
 
         try {
             statement = connection.prepareStatement(
-                    "INSERT INTO categories (name, description) VALUES (?, ?) RETURNING id");
+                    "INSERT INTO category (category_name, category_description) " +
+                            "VALUES (?, ?) RETURNING category_id");
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
             statement.execute();
 
             resultSet = statement.getResultSet();
             if (resultSet.next()) {
-                category.setId(resultSet.getLong("id"));
+                category.setId(resultSet.getLong("category_id"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -118,7 +120,8 @@ public class CategoriesRepository implements Repository<Category> {
 
         try {
             statement = connection.prepareStatement(
-                    "UPDATE categories SET (name, description) = (?, ?) WHERE id=(?)");
+                    "UPDATE category SET (category_name, category_description) = (?, ?) " +
+                            "WHERE category_id=(?)");
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
             statement.setLong(3, category.getId());
@@ -143,7 +146,7 @@ public class CategoriesRepository implements Repository<Category> {
         PreparedStatement statement = null;
 
         try {
-            statement = connection.prepareStatement("DELETE FROM categories WHERE id=(?)");
+            statement = connection.prepareStatement("DELETE FROM category WHERE category_id=(?)");
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
