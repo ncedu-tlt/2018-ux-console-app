@@ -8,17 +8,15 @@ import ru.ncedu.consoleapp.models.City;
 import ru.ncedu.consoleapp.repositories.CitiesRepository;
 import ru.ncedu.consoleapp.utils.IOUtils;
 
-public class EditCityCommand implements Command 
-{
+public class EditCityCommand implements Command {
+
     private static EditCityCommand instance;
 
     private EditCityCommand() {
     }
 
-    public static EditCityCommand getInstance() 
-    {
-        if (instance == null) 
-        {
+    public static EditCityCommand getInstance() {
+        if (instance == null) {
             instance = new EditCityCommand();
         }
         return instance;

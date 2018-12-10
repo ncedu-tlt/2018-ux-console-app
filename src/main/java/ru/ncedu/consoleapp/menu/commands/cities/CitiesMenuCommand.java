@@ -20,8 +20,7 @@ public class CitiesMenuCommand implements Command {
     }
 
     @Override
-    public Command execute() 
-    {
+    public Command execute() {
         IOUtils.printSeparator();
         System.out.println("Cities:");
         IOUtils.printOption("1", "View");

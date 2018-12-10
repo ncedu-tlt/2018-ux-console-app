@@ -7,8 +7,7 @@ import ru.ncedu.consoleapp.models.City;
 import ru.ncedu.consoleapp.repositories.CitiesRepository;
 
 
-public class AddCityCommand implements Command 
-{
+public class AddCityCommand implements Command {
     
     private static AddCityCommand instance;
     

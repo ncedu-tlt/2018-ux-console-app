@@ -23,25 +23,23 @@ public class RemoveCityCommand implements Command  {
     }
     @Override
     public Command execute() {
-        List<City> citys = CitiesRepository.getInstance().get();
+        List<City> cities = CitiesRepository.getInstance().get();
         
         IOUtils.printSeparator();
         
-        if (citys.isEmpty()) {
-            System.out.println("No citys have been found");
+        if (cities.isEmpty()) {
+            System.out.println("No cities have been found");
             IOUtils.waitForEnter();
             return CitiesMenuCommand.getInstance();
         }
         
-        for (City city : citys) {
+        for (City city : cities) {
             CityCommandsUtils.printCity(city);
         }
         
         IOUtils.printSeparator();
         System.out.println("Enter ID of city to delete:");
         long id = IOUtils.getLong();
-        
-        City city = CitiesRepository.getInstance().get(id);
         
         boolean success = CitiesRepository.getInstance().remove(id);
 

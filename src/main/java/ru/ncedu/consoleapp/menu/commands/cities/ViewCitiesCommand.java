@@ -7,7 +7,7 @@ import ru.ncedu.consoleapp.models.City;
 import ru.ncedu.consoleapp.repositories.CitiesRepository;
 import ru.ncedu.consoleapp.utils.IOUtils;
 
-public class ViewCitiesCommand implements Command{
+public class ViewCitiesCommand implements Command {
 
     private static ViewCitiesCommand instance;
 
@@ -23,17 +23,17 @@ public class ViewCitiesCommand implements Command{
     
     @Override
     public Command execute() {
-        List<City> citys = CitiesRepository.getInstance().get();
+        List<City> cities = CitiesRepository.getInstance().get();
 
         IOUtils.printSeparator();
 
-        if (citys.isEmpty()) {
-            System.out.println("No citys have been found");
+        if (cities.isEmpty()) {
+            System.out.println("No cities have been found");
             IOUtils.waitForEnter();
             return CitiesMenuCommand.getInstance();
         }
 
-        for (City city : citys) {
+        for (City city : cities) {
             CityCommandsUtils.printCity(city);
         }
 
