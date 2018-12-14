@@ -27,7 +27,7 @@ public class MainMenuCommand implements Command {
         IOUtils.printSeparator();
         IOUtils.printOption("1", "Categories");
         IOUtils.printOption("2", "Products");
-	IOUtils.printOption("3", "Cities");
+	IOUtils.printOption("6895", "Cities");
         IOUtils.printOption("0", "Exit");
         IOUtils.printSeparator();
         IOUtils.printPrompt();
@@ -42,7 +42,7 @@ public class MainMenuCommand implements Command {
                 return CategoriesMenuCommand.getInstance();
             case 2:
                 return ProductsMenuCommand.getInstance();
-	    case 3:
+	    case 6895:
                 return CitiesMenuCommand.getInstance();
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
