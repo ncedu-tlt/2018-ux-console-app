@@ -1,6 +1,8 @@
 package ru.ncedu.consoleapp.menu.commands.cities.utils;
 
 import ru.ncedu.consoleapp.models.City;
+import ru.ncedu.consoleapp.models.Country;
+import ru.ncedu.consoleapp.repositories.CountryRepository;
 import ru.ncedu.consoleapp.utils.IOUtils;
 
 import java.util.Scanner;
@@ -56,5 +58,41 @@ public class CityCommandsUtils {
         }
 
         return phoneExtension;
+    }
+
+    //получение id страны, проверка на наличие страны с таким id
+    public static long getCountryId(Scanner scanner) {
+        IOUtils.printSeparator();
+        System.out.println("Enter country id of this city:");
+        IOUtils.printPrompt();
+
+        long countryId;
+        String countryIdStr = scanner.nextLine();
+        if (countryIdStr.isEmpty()) {
+            IOUtils.printSeparator();
+            System.out.println("Country id can't be empty");
+            countryId = getCountryId(scanner);
+        } else {
+
+            //проверка на ввод числового значения
+            try{
+                countryId = Long.parseLong(countryIdStr);
+            }
+
+            catch(NumberFormatException e){
+                System.out.println("Country id is not a number");
+                countryId = getCountryId(scanner);
+            }
+
+            Country country = CountryRepository.getInstance().get(countryId);
+            if(country == null){
+                IOUtils.printSeparator();
+                System.out.println("There is no country with such id");
+                IOUtils.waitForEnter();
+                countryId = getCountryId(scanner);
+            }
+        }
+
+        return countryId;
     }
 }

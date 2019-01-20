@@ -28,6 +28,16 @@ public class CitiesRepository implements Repository<City> {
         	return cities;
 	}
 
+	//получение города из репозитория по id страны для последующего удаления
+	public List<City> getByCountryId(long id){
+
+		ArrayList<City> citiesInCountry = new ArrayList<>();
+
+		cities.stream().filter(city -> city.getCountryId() == id).forEach(city -> citiesInCountry.add(city));
+
+		return citiesInCountry;
+	}
+
 	@Override
 	public City get(long id){
 		return cities.stream().filter(city -> city.getId() == id).findFirst().orElse(null);
