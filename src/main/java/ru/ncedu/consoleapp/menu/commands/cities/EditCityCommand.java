@@ -52,6 +52,9 @@ public class EditCityCommand implements Command {
         }
 
         Scanner scanner = new Scanner(System.in);
+        long param = CityCommandsUtils.getCountryId(scanner);
+        if(param == -1)return CitiesMenuCommand.getInstance();
+        else city.setCountryId(param);    //изменение id страны, в которой находится город
         city.setName(CityCommandsUtils.getName(scanner));
         city.setDescription(CityCommandsUtils.getDescription(scanner));
         city.setDescription(CityCommandsUtils.getPhoneExtension(scanner));
