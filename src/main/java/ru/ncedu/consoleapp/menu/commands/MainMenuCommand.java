@@ -4,6 +4,7 @@ import ru.ncedu.consoleapp.menu.commands.categories.CategoriesMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.office.OfficeMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.products.ProductsMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.cities.CitiesMenuCommand;
+import ru.ncedu.consoleapp.menu.commands.countries.CountriesMenuCommand;
 import ru.ncedu.consoleapp.utils.IOUtils;
 
 import java.util.Scanner;
@@ -30,6 +31,7 @@ public class MainMenuCommand implements Command {
         IOUtils.printOption("2", "Products");
         IOUtils.printOption("3", "Import data from yandex market");
         IOUtils.printOption("4", "Cities");
+        IOUtils.printOption("5", "Countries");
         IOUtils.printOption("6", "Offices");
         IOUtils.printOption("0", "Exit");
         IOUtils.printSeparator();
@@ -49,6 +51,8 @@ public class MainMenuCommand implements Command {
                 return ImportDataMenuCommand.getInstance();
             case 4:
                 return CitiesMenuCommand.getInstance();
+            case 5:
+                return CountriesMenuCommand.getInstance();
             case 6:
                 return OfficeMenuCommand.getInstance();
             default:

@@ -27,6 +27,9 @@ public class AddCityCommand implements Command {
         Scanner scanner = new Scanner(System.in);
 
         City city = new City();
+        long param = CityCommandsUtils.getCountryId(scanner);
+        if(param == -1)return CitiesMenuCommand.getInstance();
+        else city.setCountryId(param);                         //установка id страны, в которой находится город
         city.setName(CityCommandsUtils.getName(scanner));
         city.setDescription(CityCommandsUtils.getDescription(scanner));
         city.setPhoneExtension(CityCommandsUtils.getPhoneExtension(scanner));
