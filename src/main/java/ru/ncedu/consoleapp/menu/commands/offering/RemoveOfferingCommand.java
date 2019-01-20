@@ -36,7 +36,7 @@ public class RemoveOfferingCommand implements Command {
             OfferingCommandsUtils.printOffer(offering);
         }
 
-        IOUtils.waitForEnter();
+        IOUtils.printSeparator();
 
         System.out.println("Enter ID of offering to edit:");
         long id = IOUtils.getLong();

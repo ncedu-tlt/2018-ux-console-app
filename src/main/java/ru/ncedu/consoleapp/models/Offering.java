@@ -5,8 +5,7 @@ public class Offering {
     private long id;
     private long productId;
     private long officeId;
-    private int offeringPrice;
-    private String description;
+    private double offeringPrice;
 
     public Offering(){
     }
@@ -20,14 +19,12 @@ public class Offering {
         this.productId = offering.productId;
         this.officeId = offering.officeId;
         this.offeringPrice = offering.offeringPrice;
-        this.description = offering.description;
     }
 
-    public Offering(long productId, long officeId, int offeringPrice, String description){
+    public Offering(long productId, long officeId, double offeringPrice){
         this.productId = productId;
         this.officeId = officeId;
         this.offeringPrice = offeringPrice;
-        this.description = description;
     }
 
     public long getProductId() {
@@ -38,16 +35,12 @@ public class Offering {
         return officeId;
     }
 
-    public int getOfferingPrice() {
+    public double getOfferingPrice() {
         return offeringPrice;
     }
 
     public long getId() {
         return id;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setProductId(long productId) {
@@ -58,12 +51,8 @@ public class Offering {
         this.officeId = officeId;
     }
 
-    public void setOfferingPrice(int offeringPrice) {
+    public void setOfferingPrice(double offeringPrice) {
         this.offeringPrice = offeringPrice;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setId(long id) {
@@ -74,7 +63,7 @@ public class Offering {
     public boolean equals(Object obj) {
         if(obj instanceof Offering){
             Offering offering = (Offering) obj;
-            return offering.getOfficeId()==officeId&&offering.getProductId()==productId;
+            return offering.getId()==id;
         }
         return false;
     }

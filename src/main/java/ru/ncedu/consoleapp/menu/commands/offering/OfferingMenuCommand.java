@@ -31,7 +31,8 @@ public class OfferingMenuCommand implements Command {
         IOUtils.printPrompt();
 
         Scanner scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
+        String userChoice = scanner.next();
+        int choice = userChoice.matches("[0-4]")?Integer.parseInt(userChoice):9;
 
         switch (choice) {
             case 0:
@@ -44,6 +45,9 @@ public class OfferingMenuCommand implements Command {
                 return EditOfferingCommand.getInstance();
             case 4:
                 return RemoveOfferingCommand.getInstance();
+            case 9:
+                IOUtils.showMessageAndWait("Unexpected option!");
+                return this;
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
                 return this;

@@ -1,6 +1,7 @@
 package ru.ncedu.consoleapp.menu.commands;
 
 import ru.ncedu.consoleapp.menu.commands.categories.CategoriesMenuCommand;
+import ru.ncedu.consoleapp.menu.commands.offering.OfferingMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.office.OfficeMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.products.ProductsMenuCommand;
 import ru.ncedu.consoleapp.menu.commands.cities.CitiesMenuCommand;
@@ -33,6 +34,7 @@ public class MainMenuCommand implements Command {
         IOUtils.printOption("4", "Cities");
         IOUtils.printOption("5", "Countries");
         IOUtils.printOption("6", "Offices");
+        IOUtils.printOption("7", "Offerings");
         IOUtils.printOption("0", "Exit");
         IOUtils.printSeparator();
         IOUtils.printPrompt();
@@ -55,6 +57,8 @@ public class MainMenuCommand implements Command {
                 return CountriesMenuCommand.getInstance();
             case 6:
                 return OfficeMenuCommand.getInstance();
+            case 7:
+                return OfferingMenuCommand.getInstance();
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
                 return this;
