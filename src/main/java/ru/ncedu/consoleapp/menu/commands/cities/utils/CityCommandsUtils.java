@@ -4,6 +4,10 @@ import ru.ncedu.consoleapp.models.City;
 import ru.ncedu.consoleapp.models.Country;
 import ru.ncedu.consoleapp.repositories.CountryRepository;
 import ru.ncedu.consoleapp.utils.IOUtils;
+import ru.ncedu.consoleapp.menu.commands.Command;
+import ru.ncedu.consoleapp.menu.commands.cities.CitiesMenuCommand;
+import ru.ncedu.consoleapp.menu.commands.countries.utils.CountryCommandUtils;
+import java.util.List;
 
 import java.util.Scanner;
 
@@ -62,8 +66,20 @@ public class CityCommandsUtils {
 
     //получение id страны, проверка на наличие страны с таким id
     public static long getCountryId(Scanner scanner) {
+
         IOUtils.printSeparator();
         System.out.println("Enter country id of this city:");
+        List<Country> countries = CountryRepository.getInstance().get();
+        if (countries.isEmpty()) {
+            System.out.println("No countries have been found");
+            IOUtils.waitForEnter();
+
+            return -1;
+        }
+
+        for (Country country : countries) {
+            CountryCommandUtils.printCountry(country);
+        }
         IOUtils.printPrompt();
 
         long countryId;
