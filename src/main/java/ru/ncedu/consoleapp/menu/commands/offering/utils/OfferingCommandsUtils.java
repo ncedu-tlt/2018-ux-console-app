@@ -27,14 +27,14 @@ public class OfferingCommandsUtils {
         System.out.println("Enter " + key + ":");
         IOUtils.printPrompt();
 
-        String box = scanner.nextLine();
-        if (box.isEmpty()) {
+        String string = scanner.nextLine();
+        if (string.isEmpty()) {
             IOUtils.printSeparator();
             System.out.println(key + " is empty");
-            box = getStringFromConsole(scanner, key);
+            string = getStringFromConsole(scanner, key);
         }
 
-        return box;
+        return string;
     }
 
     public static Double getDoubleFromConsole(Scanner scanner, String key){

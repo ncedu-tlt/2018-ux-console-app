@@ -45,9 +45,6 @@ public class OfferingMenuCommand implements Command {
                 return EditOfferingCommand.getInstance();
             case 4:
                 return RemoveOfferingCommand.getInstance();
-            case 9:
-                IOUtils.showMessageAndWait("Unexpected option!");
-                return this;
             default:
                 IOUtils.showMessageAndWait("Unexpected option!");
                 return this;

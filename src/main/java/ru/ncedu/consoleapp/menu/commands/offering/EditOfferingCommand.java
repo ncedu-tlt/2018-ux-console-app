@@ -51,9 +51,9 @@ public class EditOfferingCommand implements Command{
 
         IOUtils.printSeparator();
 
-        offering.setOfferingPrice(OfferingCommandsUtils.getDoubleFromConsole(scanner, "offering price"));
         offering.setProductId(OfferingCommandsUtils.getProductId(scanner));
         offering.setOfficeId(OfferingCommandsUtils.getOfficeId(scanner));
+        offering.setOfferingPrice(OfferingCommandsUtils.getDoubleFromConsole(scanner, "offering price"));
 
         OfferingRepository.getInstance().update(offering);
 

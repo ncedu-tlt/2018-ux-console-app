@@ -26,9 +26,9 @@ public class AddOfferingCommand implements Command {
         Scanner scanner = new Scanner(System.in);
         Offering offering = new Offering();
 
-        offering.setOfferingPrice(OfferingCommandsUtils.getDoubleFromConsole(scanner, "offering price"));
         offering.setProductId(OfferingCommandsUtils.getProductId(scanner));
         offering.setOfficeId(OfferingCommandsUtils.getOfficeId(scanner));
+        offering.setOfferingPrice(OfferingCommandsUtils.getDoubleFromConsole(scanner, "offering price"));
 
         OfferingRepository.getInstance().add(offering);
 
